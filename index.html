@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RITTER-RUN</title>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div class="game-stage">
+    <canvas id="game-canvas"></canvas>
+
+    <div id="hud" class="hud" hidden>
+      <div id="hud-score" class="hud-score">0</div>
+    </div>
+
+    <div id="start-screen" class="overlay" hidden>
+      <div class="panel">
+        <h1 class="panel-title">RITTER<span class="panel-title--accent">-</span>RUN</h1>
+        <p class="panel-sub">Leertaste oder Klick zum Starten</p>
+      </div>
+    </div>
+
+    <div id="gameover-screen" class="overlay" hidden>
+      <div class="panel">
+        <h1 class="panel-title panel-title--gameover">GAME OVER</h1>
+        <div class="score-line">Punktestand&nbsp;<span id="gameover-score">0</span></div>
+        <div class="score-line">Highscore&nbsp;<span id="gameover-highscore">0</span></div>
+        <p class="panel-sub">Leertaste oder Klick für Neustart</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
