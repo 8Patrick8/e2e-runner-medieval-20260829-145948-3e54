@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RITTER-RUN — Game Over</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="game-stage">
+    <div class="virtual">
+
+      <!-- Layer 1: sky + clouds (0.1x) -->
+      <div class="parallax parallax--sky">
+        <div class="cloud" style="top:60px;left:200px;width:180px;height:34px;"></div>
+        <div class="cloud" style="top:120px;left:700px;width:140px;height:26px;"></div>
+        <div class="cloud" style="top:40px;left:1500px;width:200px;height:38px;"></div>
+        <div class="cloud" style="top:140px;left:2100px;width:120px;height:24px;"></div>
+        <div class="cloud" style="top:70px;left:2900px;width:170px;height:30px;"></div>
+      </div>
+
+      <!-- Layer 2: castle + far hills (0.25x) -->
+      <div class="layer-cap layer-cap--far">
+        <div class="hill-far" style="left:0;width:640px;height:180px;bottom:0;"></div>
+        <div class="hill-far" style="left:520px;width:780px;height:230px;bottom:0;"></div>
+        <div class="hill-far" style="left:1180px;width:560px;height:160px;bottom:0;"></div>
+        <div class="hill-far" style="left:1700px;width:860px;height:250px;bottom:0;"></div>
+        <div class="castle" style="left:900px;width:300px;height:150px;bottom:0;">
+          <div class="castle--light" style="position:absolute;left:0;bottom:0;width:300px;height:96px;"></div>
+          <div class="castle--dark" style="position:absolute;left:0;top:0;width:300px;height:22px;"></div>
+          <div class="castle" style="position:absolute;left:18px;top:-46px;width:40px;height:84px;">
+            <div class="castle--dark castle-window" style="position:absolute;left:12px;top:16px;width:6px;height:10px;"></div>
+          </div>
+          <div class="castle" style="position:absolute;left:245px;top:-46px;width:40px;height:84px;">
+            <div class="castle--dark castle-window" style="position:absolute;left:22px;top:16px;width:6px;height:10px;"></div>
+          </div>
+          <div class="castle-window" style="position:absolute;left:70px;bottom:34px;width:8px;height:14px;"></div>
+          <div class="castle-window" style="position:absolute;left:220px;bottom:34px;width:8px;height:14px;"></div>
+        </div>
+      </div>
+
+      <!-- Layer 3: near hills (0.5x) -->
+      <div class="layer-cap layer-cap--near">
+        <div class="hill-near" style="left:-40px;width:520px;height:120px;bottom:0;"></div>
+        <div class="hill-near" style="left:460px;width:640px;height:150px;bottom:0;"></div>
+        <div class="hill-near" style="left:1080px;width:500px;height:110px;bottom:0;"></div>
+        <div class="hill-near" style="left:1560px;width:700px;height:160px;bottom:0;"></div>
+      </div>
+
+      <!-- Ground (1.0x) -->
+      <div class="ground" style="left:0;">
+        <div class="ground-stripe" style="left:60px;"></div>
+        <div class="ground-stripe--light" style="left:90px;"></div>
+        <div class="ground-stripe" style="left:500px;"></div>
+        <div class="ground-stripe--light" style="left:540px;"></div>
+        <div class="ground-stripe" style="left:980px;"></div>
+        <div class="ground-stripe--light" style="left:1020px;"></div>
+        <div class="ground-stripe" style="left:1500px;"></div>
+        <div class="ground-stripe--light" style="left:1540px;"></div>
+      </div>
+
+      <!-- Knight stopped (facing right, knocked/static) -->
+      <div class="knight">
+        <div class="knight-frame knight-frame--a">
+          <svg viewBox="0 0 48 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="20" y="46" width="7" height="16" rx="2" fill="#4e5860" stroke="#2b1f16" stroke-width="2"/>
+            <rect x="27" y="46" width="7" height="14" rx="2" fill="#4e5860" stroke="#2b1f16" stroke-width="2"/>
+            <rect x="14" y="22" width="21" height="26" rx="4" fill="#9aa7b5" stroke="#2b1f16" stroke-width="2"/>
+            <path d="M9 26 h6 v12 h-6 z" fill="#b23a48" stroke="#2b1f16" stroke-width="2"/>
+            <rect x="17" y="8" width="16" height="16" rx="3" fill="#9aa7b5" stroke="#2b1f16" stroke-width="2"/>
+            <rect x="21" y="12" width="8" height="6" rx="1" fill="#4e5860"/>
+            <path d="M33 8 q8 -2 6 -9" stroke="#d4a017" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Game Over overlay -->
+    <div class="overlay">
+      <div class="panel">
+        <h1 class="panel-title" style="font-size:var(--size-48);color:var(--color-danger);-webkit-text-stroke:2px var(--color-danger);" data-od-id="gameover-title">GAME OVER</h1>
+
+        <div style="margin-top:var(--space-5);font-size:var(--size-24);font-weight:var(--heading-weight);" data-od-id="score-display">
+          Punktestand&nbsp;<span data-od-id="final-score">1234</span>
+        </div>
+
+        <div style="margin-top:var(--space-2);font-size:var(--size-24);font-weight:var(--heading-weight);" data-od-id="highscore-display">
+          Highscore&nbsp;<span class="hud-score--record" data-od-id="final-highscore">5640</span>
+          <span class="record-badge" data-od-id="record-badge">NEU!</span>
+        </div>
+
+        <p class="panel-sub" style="margin-top:var(--space-5);" data-od-id="restart-hint">Leertaste oder Klick für Neustart</p>
+
+        <div style="margin-top:var(--space-4);">
+          <a class="btn" href="game.html" data-od-id="restart-button">Neustart</a>
+        </div>
+      </div>
+    </div>
+
+    <nav class="catalog-nav" aria-label="Screen-Navigation" data-od-id="catalog-nav">
+      <a class="btn" href="index.html">Start</a>
+      <a class="btn" href="game.html">Spiel</a>
+      <a class="btn" href="game-over.html" aria-current="page">Game&nbsp;Over</a>
+    </nav>
+  </div>
+</body>
+</html>
