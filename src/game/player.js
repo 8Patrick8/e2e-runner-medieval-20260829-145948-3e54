@@ -1,19 +1,22 @@
 import { SCENE } from './state.js';
-import { GROUND_Y, GRAVITY, JUMP_VELOCITY } from './constants.js';
+import { BASE_SPEED, GROUND_Y, GRAVITY, JUMP_VELOCITY } from './constants.js';
 
 const OUTLINE = '#2b1f16';
 const STEEL = '#9aa7b5';
 const STEEL_DARK = '#4e5860';
 const CRIMSON = '#b23a48';
+const SKIN = '#e8c39e';
 const GOLD = '#d4a017';
 
+const KNIGHT_W = 48;
 const KNIGHT_H = 64;
+const RUN_FRAME_MS = 120;
 
 let stateRef = null;
 let inputBound = false;
 
 function bindInput() {
-  if (inputBound) return;
+  if (inputBound || typeof window === 'undefined') return;
   inputBound = true;
   const press = () => {
     if (stateRef) stateRef.input.action = true;
@@ -50,43 +53,72 @@ function fillStroke(ctx, fill) {
   ctx.stroke();
 }
 
-function drawKnight(ctx, x, y, airborne) {
-  ctx.save();
-  ctx.translate(x, y);
-
-  if (airborne) {
-    roundRect(ctx, 15, 50, 7, 14, 2);
+function drawLegs(ctx, pose) {
+  if (pose === 'jump') {
+    roundRect(ctx, 15, 46, 7, 12, 2);
     fillStroke(ctx, STEEL_DARK);
-    roundRect(ctx, 26, 52, 7, 12, 2);
+    roundRect(ctx, 26, 48, 7, 10, 2);
     fillStroke(ctx, STEEL_DARK);
-  } else {
-    roundRect(ctx, 16, 46, 7, 18, 2);
-    fillStroke(ctx, STEEL_DARK);
-    roundRect(ctx, 27, 46, 7, 18, 2);
-    fillStroke(ctx, STEEL_DARK);
+    return;
   }
 
-  roundRect(ctx, 14, 22, 21, 26, 4);
-  fillStroke(ctx, STEEL);
+  const leftLifted = pose === 'run1';
+  if (leftLifted) {
+    roundRect(ctx, 16, 44, 7, 14, 2);
+    fillStroke(ctx, STEEL_DARK);
+    roundRect(ctx, 26, 44, 7, 20, 2);
+    fillStroke(ctx, STEEL_DARK);
+  } else {
+    roundRect(ctx, 16, 44, 7, 20, 2);
+    fillStroke(ctx, STEEL_DARK);
+    roundRect(ctx, 26, 44, 7, 14, 2);
+    fillStroke(ctx, STEEL_DARK);
+  }
+}
 
-  ctx.beginPath();
-  ctx.rect(9, 26, 6, 12);
+function drawTorso(ctx) {
+  roundRect(ctx, 14, 28, 21, 16, 3);
   fillStroke(ctx, CRIMSON);
-
-  roundRect(ctx, 17, 8, 16, 16, 3);
+  roundRect(ctx, 14, 22, 21, 14, 4);
   fillStroke(ctx, STEEL);
-
-  roundRect(ctx, 21, 12, 8, 6, 1);
+  roundRect(ctx, 33, 25, 5, 15, 2);
+  fillStroke(ctx, STEEL_DARK);
+  roundRect(ctx, 14, 41, 21, 4, 1);
   ctx.fillStyle = STEEL_DARK;
+  ctx.fill();
+}
+
+function drawHelmet(ctx, pose) {
+  roundRect(ctx, 17, 7, 16, 16, 3);
+  fillStroke(ctx, STEEL);
+  roundRect(ctx, 21, 13, 8, 5, 1);
+  ctx.fillStyle = STEEL_DARK;
+  ctx.fill();
+  roundRect(ctx, 22, 18, 6, 4, 1);
+  ctx.fillStyle = SKIN;
   ctx.fill();
 
   ctx.beginPath();
-  ctx.moveTo(33, 8);
-  ctx.quadraticCurveTo(41, 6, 39, -1);
+  if (pose === 'jump') {
+    ctx.moveTo(30, 7);
+    ctx.quadraticCurveTo(20, 5, 15, -1);
+  } else {
+    ctx.moveTo(30, 7);
+    ctx.quadraticCurveTo(23, 3, 20, -4);
+  }
   ctx.strokeStyle = GOLD;
   ctx.lineWidth = 3;
   ctx.lineCap = 'round';
   ctx.stroke();
+}
+
+function drawKnight(ctx, x, y, pose) {
+  ctx.save();
+  ctx.translate(x, y);
+
+  drawLegs(ctx, pose);
+  drawTorso(ctx);
+  drawHelmet(ctx, pose);
 
   ctx.restore();
 }
@@ -109,11 +141,16 @@ export function updatePlayer(state, dt) {
     p.vy = 0;
     p.onGround = true;
   }
-  p.runPhase += dt;
+  p.runPhase += dt * (state.speed / BASE_SPEED);
 }
 
 export function drawPlayer(ctx, state) {
   if (state.scene !== SCENE.RUNNING) return;
   const p = state.player;
-  drawKnight(ctx, p.x, p.y - KNIGHT_H, !p.onGround);
+  const pose = !p.onGround
+    ? 'jump'
+    : Math.floor((p.runPhase * 1000) / RUN_FRAME_MS) % 2 === 0
+      ? 'run0'
+      : 'run1';
+  drawKnight(ctx, p.x, p.y - KNIGHT_H, pose);
 }
