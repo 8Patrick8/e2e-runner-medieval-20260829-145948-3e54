@@ -12,24 +12,6 @@ const KNIGHT_W = 48;
 const KNIGHT_H = 64;
 const RUN_FRAME_MS = 120;
 
-let stateRef = null;
-let inputBound = false;
-
-function bindInput() {
-  if (inputBound || typeof window === 'undefined') return;
-  inputBound = true;
-  const press = () => {
-    if (stateRef) stateRef.input.action = true;
-  };
-  window.addEventListener('keydown', (event) => {
-    if (event.code === 'Space') {
-      event.preventDefault();
-      press();
-    }
-  });
-  window.addEventListener('pointerdown', press);
-}
-
 function roundRect(ctx, x, y, w, h, r) {
   const rr = Math.min(r, w / 2, h / 2);
   ctx.beginPath();
@@ -125,8 +107,6 @@ function drawKnight(ctx, x, y, pose) {
 
 export function updatePlayer(state, dt) {
   if (state.scene !== SCENE.RUNNING) return;
-  stateRef = state;
-  bindInput();
 
   const p = state.player;
   if (state.input.action && p.onGround) {
@@ -136,7 +116,7 @@ export function updatePlayer(state, dt) {
 
   p.vy += GRAVITY * dt;
   p.y += p.vy * dt;
-  if (p.y >= GROUND_Y) {
+  if (p.y >= GROUND_Y && p.vy >= 0) {
     p.y = GROUND_Y;
     p.vy = 0;
     p.onGround = true;

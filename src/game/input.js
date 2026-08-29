@@ -1,2 +1,14 @@
-// Stub — the input ticket wires keyboard/pointer listeners here.
-export function initInput(state) {}
+export function initInput(state) {
+  const press = () => {
+    state.input.action = true;
+  };
+
+  window.addEventListener('keydown', (event) => {
+    if (event.code === 'Space' || event.key === ' ') {
+      event.preventDefault();
+      press();
+    }
+  });
+
+  window.addEventListener('pointerdown', press);
+}

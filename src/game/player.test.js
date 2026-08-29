@@ -43,6 +43,16 @@ describe('updatePlayer — jump physics', () => {
     expect(state.player.y).toBeLessThan(y0);
   });
 
+  it('keeps the knight airborne when a jump starts on a zero-dt frame', () => {
+    const state = makeRunningState();
+    state.input.action = true;
+
+    updatePlayer(state, 0);
+
+    expect(state.player.onGround).toBe(false);
+    expect(state.player.vy).toBeLessThan(0);
+  });
+
   it('follows a full arc: ascent, apex, descent and landing', () => {
     const state = makeRunningState();
     state.input.action = true;
