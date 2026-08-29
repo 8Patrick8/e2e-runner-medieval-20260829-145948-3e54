@@ -1,0 +1,48 @@
+# office-crew-ci-gates: strict-v10
+# Auto-generated for Vite-based projects v5 (GitHub Actions).
+# Lockfile-resilient install + build + test + (optional) lint/tsc.
+# The install line is `NPM_INSTALL`, written once for every template — see the note
+# there for why a bare `npm ci` may not appear in this file. The previous wording
+# here asserted the fullstack frontend job used "the same idiom"; it did not, and
+# nothing checked the claim. tests/test_ci_templates.py now does.
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [ main, master ]
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - shell: bash
+        run: |
+          if [ -f package-lock.json ]; then npm ci --no-audit --no-fund || npm install --no-audit --no-fund; else npm install --no-audit --no-fund; fi
+      - run: npm run build
+      - shell: bash
+        run: |
+          if grep -q '"test"' package.json; then T=$(sed -n 's/.*"test"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' package.json | head -1); A=''; case "$T" in *vitest*) case "$T" in *--run*|*" run"*) ;; *) A="--run";; esac; case "$T" in *--passWithNoTests*) ;; *) A="$A --passWithNoTests";; esac;; *jest*) case "$T" in *--passWithNoTests*) ;; *) A="--passWithNoTests";; esac;; esac; if [ -n "$A" ]; then npm test -- $A; else npm test; fi; else echo 'No test script in package.json — skip'; fi
+  lint:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - shell: bash
+        run: |
+          if [ -f package-lock.json ]; then npm ci --no-audit --no-fund || npm install --no-audit --no-fund; else npm install --no-audit --no-fund; fi
+      - shell: bash
+        # See the web-static twin: a continue-on-error job still reports `failure` at
+        # the check-run level, which is what this orchestrator reads.
+        run: |
+          if [ -f .eslintrc.json ] || [ -f .eslintrc.cjs ] || [ -f eslint.config.js ] || [ -f eslint.config.mjs ]; then
+            npx eslint . --max-warnings=0 || true
+          fi
+          if [ -f tsconfig.json ]; then
+            npx tsc --noEmit || true
+          fi
