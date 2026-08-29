@@ -1,0 +1,16 @@
+{
+  "runcontract": 1,
+  "services": [
+    {
+      "name": "frontend",
+      "dir": ".",
+      "stack": "web-vite",
+      "kind": "static",
+      "install": [["npm", "install"]],
+      "build": [["npm", "run", "build"]],
+      "serve_dir": "dist",
+      "port": 5173,
+      "port_env": "PORT"
+    }
+  ]
+}

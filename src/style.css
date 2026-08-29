@@ -1,0 +1,159 @@
+/* ============================================================
+   RITTER-RUN — shared design system
+   Warm medieval retro-browser look, transcribed from DESIGN.md.
+   ============================================================ */
+:root {
+  /* Colors */
+  --color-bg:         #8ec5d6;
+  --color-fg:         #2b1f16;
+  --color-accent:     #d4a017;
+  --color-border:     #5b4636;
+  --color-muted:      #8a7a68;
+  --color-sky:        #8ec5d6;
+  --color-sky-light:  #b8dce8;
+  --color-cloud:      #f4f1e8;
+  --color-castle:     #6e5a4b;
+  --color-castle-dark:#4a3b30;
+  --color-castle-light:#8f7a66;
+  --color-hill-far:   #7a9e6d;
+  --color-hill-near:  #5d7f52;
+  --color-ground:     #6b4a2f;
+  --color-ground-dark:#4a3320;
+  --color-ground-light:#8a6a45;
+  --color-steel:      #9aa7b5;
+  --color-steel-dark: #4e5860;
+  --color-crimson:    #b23a48;
+  --color-skin:       #e8c39e;
+  --color-wood:       #8b5a2b;
+  --color-wood-dark:  #6b4320;
+  --color-wood-light: #a8723d;
+  --color-danger:     #c0392b;
+  --color-overlay:    rgba(43, 31, 22, 0.55);
+
+  /* Typography */
+  --font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  --heading-weight: 700;
+  --body-weight: 400;
+  --size-14: 14px;
+  --size-18: 18px;
+  --size-24: 24px;
+  --size-40: 40px;
+  --size-48: 48px;
+  --size-64: 64px;
+
+  /* Spacing */
+  --space-0: 4px;
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--color-sky);
+  font-family: var(--font-family);
+  color: var(--color-fg);
+  overflow: hidden;
+}
+
+.game-stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--color-sky);
+}
+
+#game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-sky);
+}
+
+[hidden] { display: none !important; }
+
+/* ---------- HUD ---------- */
+.hud {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.hud-score {
+  font-size: var(--size-24);
+  font-weight: var(--heading-weight);
+  color: var(--color-fg);
+  background: rgba(43, 31, 22, 0.35);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  text-shadow: 1px 1px 0 var(--color-cloud);
+}
+
+@media (max-width: 640px) {
+  .hud-score { font-size: var(--size-18); }
+}
+
+/* ---------- Overlay screens (Start / Game Over) ---------- */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--color-overlay);
+  z-index: 10;
+}
+
+.panel {
+  background: var(--color-cloud);
+  opacity: 0.9;
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-border);
+  text-align: center;
+  max-width: 640px;
+}
+
+.panel-title {
+  font-size: var(--size-64);
+  font-weight: var(--heading-weight);
+  color: var(--color-fg);
+  letter-spacing: 0.02em;
+  -webkit-text-stroke: 2px var(--color-fg);
+  margin: 0;
+}
+
+.panel-title--accent { color: var(--color-accent); }
+
+.panel-title--gameover {
+  font-size: var(--size-48);
+  color: var(--color-danger);
+  -webkit-text-stroke: 2px var(--color-danger);
+}
+
+.panel-sub {
+  font-size: var(--size-18);
+  color: var(--color-fg);
+  margin: var(--space-3) 0 0;
+}
+
+.score-line {
+  margin-top: var(--space-3);
+  font-size: var(--size-24);
+  font-weight: var(--heading-weight);
+  color: var(--color-fg);
+}
