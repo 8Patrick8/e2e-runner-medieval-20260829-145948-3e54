@@ -104,6 +104,10 @@ html, body {
   text-shadow: 1px 1px 0 var(--color-cloud);
 }
 
+.hud-score--record {
+  color: var(--color-accent);
+}
+
 @media (max-width: 640px) {
   .hud-score { font-size: var(--size-18); }
 }
