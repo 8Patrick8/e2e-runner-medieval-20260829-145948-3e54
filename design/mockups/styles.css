@@ -1,0 +1,314 @@
+/* ============================================================
+   RITTER-RUN — shared design system
+   Warm medieval retro-browser look, transcribed verbatim from
+   the approved Design tokens.
+   ============================================================ */
+:root {
+  /* Colors */
+  --color-bg:         #8ec5d6;
+  --color-fg:         #2b1f16;
+  --color-accent:     #d4a017;
+  --color-border:     #5b4636;
+  --color-muted:      #8a7a68;
+  --color-sky:        #8ec5d6;
+  --color-sky-light:  #b8dce8;
+  --color-cloud:      #f4f1e8;
+  --color-castle:     #6e5a4b;
+  --color-castle-dark:#4a3b30;
+  --color-castle-light:#8f7a66;
+  --color-hill-far:   #7a9e6d;
+  --color-hill-near:  #5d7f52;
+  --color-ground:     #6b4a2f;
+  --color-ground-dark:#4a3320;
+  --color-ground-light:#8a6a45;
+  --color-steel:      #9aa7b5;
+  --color-steel-dark: #4e5860;
+  --color-crimson:    #b23a48;
+  --color-skin:       #e8c39e;
+  --color-wood:       #8b5a2b;
+  --color-wood-dark:  #6b4320;
+  --color-wood-light: #a8723d;
+  --color-danger:     #c0392b;
+  --color-overlay:    rgba(43, 31, 22, 0.55);
+
+  /* Typography */
+  --font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  --heading-weight: 700;
+  --body-weight: 400;
+  --size-14: 14px;
+  --size-18: 18px;
+  --size-24: 24px;
+  --size-40: 40px;
+  --size-48: 48px;
+  --size-64: 64px;
+
+  /* Spacing */
+  --space-0: 4px;
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--color-sky);
+  font-family: var(--font-family);
+  color: var(--color-fg);
+}
+
+/* ---- Full-viewport game scene (scaled 540 virtual height) ---- */
+.game-stage {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--color-sky);
+}
+
+/* Virtual 540px coordinate space, letterboxed, no distortion.
+   Background layers live at virtual coords; the "+million" keep
+   them far larger than any viewport. */
+.virtual {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 540px;
+  transform: translateY(-50%);
+  transform-origin: center;
+  overflow: hidden;
+}
+
+/* ---------- Parallax layers (top to bottom) ---------- */
+
+/* Layer 1 — sky */
+.parallax { position: absolute; left: 0; top: 0; height: 100%; width: 4000px; }
+
+.parallax--sky   { background: var(--color-sky); animation: scroll-sky 140s linear infinite; }
+.parallax--far   { animation: scroll-far 70s linear infinite; }
+.parallax--near  { animation: scroll-near 30s linear infinite; }
+.parallax--ground{ animation: scroll-ground 14s linear infinite; }
+
+@keyframes scroll-sky    { from{transform:translateX(0);}    to{transform:translateX(-1000px);} }
+@keyframes scroll-far    { from{transform:translateX(0);}    to{transform:translateX(-1000px);} }
+@keyframes scroll-near   { from{transform:translateX(0);}    to{transform:translateX(-1000px);} }
+@keyframes scroll-ground { from{transform:translateX(0);}    to{transform:translateX(-1000px);} }
+
+/* Clouds on the sky layer */
+.cloud {
+  position: absolute;
+  background: var(--color-cloud);
+  border-radius: var(--radius-pill);
+  opacity: 0.9;
+}
+
+/* Distant castle + far hills need their own vertical placement:
+   base on ground line at bottom of the 540-scale. */
+.layer-cap {
+  position: absolute;
+  left: 0; bottom: 60px;   /* sits just above ground */
+  height: 320px;
+  width: 4000px;
+}
+
+.layer-cap--far { animation: scroll-far 70s linear infinite; }
+.layer-cap--near { animation: scroll-near 30s linear infinite; }
+
+/* Castle turret silhouette (parallax far, scroll 0.25x) */
+.castle {
+  position: absolute;
+  bottom: 0;
+  background: var(--color-castle);
+}
+.castle--dark  { background: var(--color-castle-dark); }
+.castle--light { background: var(--color-castle-light); }
+.castle-window { position: absolute; background: var(--color-castle-dark); }
+
+/* Far hills (scroll 0.25x) */
+.hill-far {
+  position: absolute;
+  border-radius: 50% 50% 0 0;
+  background: var(--color-hill-far);
+}
+
+/* Near hills (scroll 0.5x) */
+.hill-near {
+  position: absolute;
+  border-radius: 50% 50% 0 0;
+  background: var(--color-hill-near);
+}
+
+/* Ground with stripes (scroll 1.0x) */
+.ground {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 4000px;
+  height: 60px;
+  background: var(--color-ground);
+  border-top: 3px solid var(--color-ground-light);
+}
+.ground-stripe {
+  position: absolute;
+  bottom: 0;
+  width: 340px;
+  height: 18px;
+  background: var(--color-ground-dark);
+  border-radius: 0 8px 8px 0;
+}
+.ground-stripe--light {
+  background: var(--color-ground-light);
+  height: 8px;
+  top: 10px;
+  border-radius: 999px;
+}
+
+/* ---------- Sprites ---------- */
+
+/* Knight: 48x64, base on ground line (~80% of canvas = 432/540) */
+.knight {
+  position: absolute;
+  left: 220px;
+  bottom: 60px;          /* on top of the ground strip */
+  width: 48px;
+  height: 64px;
+}
+.knight--jump { bottom: 160px; }  /* airborne pose placeholder */
+
+.knight-frame {
+  position: absolute;
+  inset: 0;
+}
+.knight-frame--b { display: none; }
+.knight--anim .knight-frame--a { animation: run-legs 240ms steps(1) infinite; }
+.knight--anim .knight-frame--b { display: block; animation: run-legs 240ms steps(1) infinite; }
+@keyframes run-legs {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* Knight SVG body (inline, static pose) */
+.knight svg { width: 100%; height: 100%; display: block; }
+
+/* Obstacles sit on the same ground line */
+.obstacle {
+  position: absolute;
+  bottom: 60px;
+}
+.barrel { width: 36px; height: 44px; }
+.fence  { width: 44px; height: 40px; }
+.obstacle--far { left: 640px; }
+.obstacle--mid { left: 900px; }
+.obstacle--near{ left: 1180px; }
+
+/* ---------- HUD ---------- */
+.hud {
+  position: absolute;
+  top: var(--space-3);       /* 16px from edge */
+  left: var(--space-3);
+  right: var(--space-3);
+  display: flex;
+  justify-content: space-between;
+  z-index: 5;
+  pointer-events: none;
+}
+.hud-score {
+  font-size: var(--size-24);
+  font-weight: var(--heading-weight);
+  color: var(--color-fg);
+  background: rgba(43, 31, 22, 0.35);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  text-shadow: 1px 1px 0 var(--color-cloud);
+}
+.hud-score--record {
+  color: var(--color-accent);
+}
+.record-badge {
+  font-size: var(--size-18);
+  margin-left: var(--space-1);
+  color: var(--color-accent);
+  text-shadow: 1px 1px 0 var(--color-cloud);
+}
+@media (max-width: 640px) {
+  .hud-score, .record-badge { font-size: 18px; }
+}
+
+/* ---------- Overlay screens (Start / Game Over) ---------- */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--color-overlay);
+  z-index: 10;
+}
+.panel {
+  background: var(--color-cloud);
+  opacity: 0.9;
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-border);
+  text-align: center;
+  max-width: 640px;
+}
+.panel-title {
+  font-size: var(--size-64);
+  font-weight: var(--heading-weight);
+  color: var(--color-fg);
+  letter-spacing: 0.02em;
+  -webkit-text-stroke: 2px var(--color-fg);
+  margin: 0 var(--space-2);
+}
+.panel-title--accent { color: var(--color-accent); }
+.panel-sub {
+  font-size: var(--size-18);
+  color: var(--color-fg);
+  margin: var(--space-3) 0 0;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block;
+  font-family: var(--font-family);
+  font-size: var(--size-18);
+  font-weight: var(--heading-weight);
+  color: var(--color-fg);
+  background: var(--color-accent);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 12px 24px;
+  min-height: 44px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn:hover  { background: #e6b43a; }
+.btn:active { transform: translateY(2px); background: #c29315; }
+.btn:disabled { opacity: 0.6; }
+
+/* Small catalog nav for the click-through (only on index) */
+.catalog-nav {
+  position: absolute;
+  left: var(--space-3);
+  bottom: var(--space-3);
+  z-index: 20;
+  display: flex;
+  gap: var(--space-1);
+}
+.catalog-nav a {
+  font-size: var(--size-14);
+  padding: 6px 12px;
+  min-height: auto;
+}
