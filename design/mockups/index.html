@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RITTER-RUN — Start</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="game-stage">
+    <div class="virtual">
+
+      <!-- Layer 1: sky + clouds (0.1x) -->
+      <div class="parallax parallax--sky">
+        <div class="cloud" style="top:60px;left:200px;width:180px;height:34px;"></div>
+        <div class="cloud" style="top:120px;left:700px;width:140px;height:26px;"></div>
+        <div class="cloud" style="top:40px;left:1500px;width:200px;height:38px;"></div>
+        <div class="cloud" style="top:140px;left:2100px;width:120px;height:24px;"></div>
+        <div class="cloud" style="top:70px;left:2900px;width:170px;height:30px;"></div>
+        <div class="cloud" style="top:130px;left:3600px;width:150px;height:28px;"></div>
+      </div>
+
+      <!-- Layer 2: far castle + far hills (0.25x) -->
+      <div class="layer-cap layer-cap--far">
+        <div class="hill-far" style="left:0;width:640px;height:180px;bottom:0;"></div>
+        <div class="hill-far" style="left:520px;width:780px;height:230px;bottom:0;"></div>
+        <div class="hill-far" style="left:1180px;width:560px;height:160px;bottom:0;"></div>
+        <div class="hill-far" style="left:1700px;width:860px;height:250px;bottom:0;"></div>
+        <div class="hill-far" style="left:2500px;width:620px;height:200px;bottom:0;"></div>
+        <div class="hill-far" style="left:3100px;width:760px;height:240px;bottom:0;"></div>
+
+        <!-- Castle silhouette: keep + turrets -->
+        <div class="castle" style="left:900px;width:300px;height:150px;bottom:0;">
+          <div class="castle--light" style="position:absolute;left:0;bottom:0;width:300px;height:96px;"></div>
+          <div class="castle--dark" style="position:absolute;left:0;top:0;width:300px;height:22px;"></div>
+          <div class="castle" style="position:absolute;left:18px;top:-46px;width:40px;height:84px;">
+            <div class="castle--dark castle-window" style="position:absolute;left:12px;top:16px;width:6px;height:10px;"></div>
+          </div>
+          <div class="castle" style="position:absolute;left:245px;top:-46px;width:40px;height:84px;">
+            <div class="castle--dark castle-window" style="position:absolute;left:22px;top:16px;width:6px;height:10px;"></div>
+          </div>
+          <div class="castle-window" style="position:absolute;left:70px;bottom:34px;width:8px;height:14px;"></div>
+          <div class="castle-window" style="position:absolute;left:220px;bottom:34px;width:8px;height:14px;"></div>
+        </div>
+      </div>
+
+      <!-- Layer 3: near hills (0.5x) -->
+      <div class="layer-cap layer-cap--near">
+        <div class="hill-near" style="left:-40px;width:520px;height:120px;bottom:0;"></div>
+        <div class="hill-near" style="left:460px;width:640px;height:150px;bottom:0;"></div>
+        <div class="hill-near" style="left:1080px;width:500px;height:110px;bottom:0;"></div>
+        <div class="hill-near" style="left:1560px;width:700px;height:160px;bottom:0;"></div>
+        <div class="hill-near" style="left:2240px;width:520px;height:125px;bottom:0;"></div>
+        <div class="hill-near" style="left:2740px;width:680px;height:155px;bottom:0;"></div>
+        <div class="hill-near" style="left:3400px;width:540px;height:120px;bottom:0;"></div>
+      </div>
+
+      <!-- Ground (1.0x) -->
+      <div class="ground" style="left:0;">
+        <div class="ground-stripe" style="left:60px;"></div>
+        <div class="ground-stripe--light" style="left:90px;"></div>
+        <div class="ground-stripe" style="left:500px;"></div>
+        <div class="ground-stripe--light" style="left:540px;"></div>
+        <div class="ground-stripe" style="left:980px;"></div>
+        <div class="ground-stripe--light" style="left:1020px;"></div>
+        <div class="ground-stripe" style="left:1500px;"></div>
+        <div class="ground-stripe--light" style="left:1540px;"></div>
+        <div class="ground-stripe" style="left:2100px;"></div>
+        <div class="ground-stripe--light" style="left:2140px;"></div>
+        <div class="ground-stripe" style="left:2700px;"></div>
+        <div class="ground-stripe--light" style="left:2740px;"></div>
+        <div class="ground-stripe" style="left:3300px;"></div>
+        <div class="ground-stripe--light" style="left:3340px;"></div>
+        <div class="ground-stripe" style="left:3900px;"></div>
+      </div>
+
+      <!-- Knight idle on ground, facing right -->
+      <div class="knight">
+        <div class="knight-frame knight-frame--a">
+          <svg viewBox="0 0 48 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- legs (frame A: back leg forward) -->
+            <rect x="16" y="46" width="7" height="16" rx="2" fill="#4e5860" stroke="#2b1f16" stroke-width="2"/>
+            <rect x="27" y="46" width="7" height="14" rx="2" fill="#4e5860" stroke="#2b1f16" stroke-width="2"/>
+            <!-- torso / armor -->
+            <rect x="14" y="22" width="21" height="26" rx="4" fill="#9aa7b5" stroke="#2b1f16" stroke-width="2"/>
+            <!-- shield on left side -->
+            <path d="M9 26 h6 v12 h-6 z" fill="#b23a48" stroke="#2b1f16" stroke-width="2"/>
+            <!-- head -->
+            <rect x="17" y="8" width="16" height="16" rx="3" fill="#9aa7b5" stroke="#2b1f16" stroke-width="2"/>
+            <!-- helmet visor slot -->
+            <rect x="21" y="12" width="8" height="6" rx="1" fill="#4e5860"/>
+            <!-- plume feather (gold accent) -->
+            <path d="M33 8 q8 -2 6 -9" stroke="#d4a017" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Start screen overlay -->
+    <div class="overlay">
+      <div class="panel">
+        <h1 class="panel-title" data-od-id="start-title">RITTER<span class="panel-title--accent">-</span>RUN</h1>
+        <p class="panel-sub" data-od-id="start-subtitle">Leertaste oder Klick zum Starten</p>
+        <div style="margin-top:var(--space-5);">
+          <a class="btn" href="game.html" data-od-id="start-button">Zum Spiel</a>
+        </div>
+      </div>
+    </div>
+
+    <nav class="catalog-nav" aria-label="Screen-Navigation" data-od-id="catalog-nav">
+      <a class="btn" href="index.html" aria-current="page">Start</a>
+      <a class="btn" href="game.html">Spiel</a>
+      <a class="btn" href="game-over.html">Game&nbsp;Over</a>
+    </nav>
+  </div>
+</body>
+</html>
